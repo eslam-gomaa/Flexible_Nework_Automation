@@ -65,14 +65,14 @@ for host in hosts['hosts']:
 
 
 
-[image-20200608205523090](Images/image-20200608205523090.png)
+![image-20200608205523090](Images/image-20200608205523090.png)
 
 
 
 
 
 
-![image-20200608200752632](Images/image-20200608200752632.png)
+[image-20200608200752632](Images/image-20200608200752632.png)
 
 :gem: Nice output
 * you can use `print_json` which will get you output like the previous one, (good for debugging)
