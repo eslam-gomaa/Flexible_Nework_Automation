@@ -15,7 +15,7 @@ for host in hosts['hosts']:
     connection.shell(cmd='enable\n' + enable_pwd)
 
     connection.print(msg='view trunk interfaces', level='info')
-    connection.shell(cmd="show int trunk", print_json=False)
+    connection.shell(cmd_from_file='./Examples/conf_file.txt', print_json=True)
 
     # ******************************* End ***************************************
 
