@@ -1,10 +1,9 @@
 import paramiko
 import sys
 import time
-import csv
 import os
 import socket
-from pygments import highlight, lexers, formatters
+#from pygments import highlight, lexers, formatters
 import re
 import json
 import argparse
@@ -170,7 +169,7 @@ class SSH_Connect:
             color = bcolors.FAIL
             start = bcolors.GRAY + "[FAIL]"+ bcolors.ENDC
         else:
-            print( + bcolors.FAIL + " Supported print level options are: ['info', 'warn', 'fail'] - Your input: ({})".format(level)+ bcolors.ENDC)
+            print(bcolors.FAIL + " Supported print level options are: ['info', 'warn', 'fail'] - Your input: ({})".format(level) + bcolors.ENDC)
             exit(1)
         if not force:
             if self.is_connected:

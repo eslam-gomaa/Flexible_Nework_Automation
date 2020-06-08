@@ -3,7 +3,7 @@
 A Python Class that provides handy Methods that help to make Network Automation with Python easier and more productive.
 
 
-## Features:
+## Features :sunny:	: 
 
 
 **As you may know network devices do NOT have the concept of `stderr` & `exit_code`,
@@ -88,6 +88,7 @@ for host in hosts['hosts']:
 
     connection.print("This command has a typo !", level='warn')
     connection.shell(cmd="show ip int br TYPO", print_json=False)
+
     # ******************************* End ***************************************
 
     hosts['hosts_number'] -= 1
@@ -133,17 +134,11 @@ connection.shell(cmd='show vlan br TYPO_HERE', print_stdout=True, search='[0-9]+
 
 
 
-The `SSH_Connect` Class provides 2 methods for executing commands on remote hosts/devices
-* The `exec_cmd` Method `-->` suitable for running command through ssh on hosts
-* The `shell` Method `-->` suitable for running command through ssh on network devices 
-
-
-
-### Requirements
+## Requirements
 
 * Python3
 
-### Installation
+## Installation
 
 * To get started you just need to install the following Python Libraries
 
@@ -159,7 +154,7 @@ cd Flexible_Nework_Automation
 
 ---
 
-### Usage
+## Usage
 
 #### Step 1
 
@@ -202,7 +197,9 @@ python3 example.py --file <Hosts-File>
 
 ---
 
-## Module Functions
+## Discussion
+
+* First you begin with importin
 
 
 
