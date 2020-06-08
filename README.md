@@ -1,16 +1,18 @@
 # Flexible_Nework-Automation
 
-A Python Class that provides handy functions that help to make Network Automation with Python easier and more productive.
+A Python Class that provides handy Methods that help to make Network Automation with Python easier and more productive.
 
 
-### Features:
+## Features:
 
 
-As you may know network devices do NOT have the concept of `stderr` & `exit_code`,
-when you run a command on a network device you will only get the `stdout`
+**As you may know network devices do NOT have the concept of `stderr` & `exit_code`,
+when you run a command on a network device you will only get the `stdout`**
 
 :gem: The `shell` method can be used to run command on Network Devices via SSH, Normally it can get `stdout` but it's also  able to get the `stderr` by searching in the `stdout`
 and hence it can provide an `exit_code` of `0` or `1` 
+
+:gem: It executes all the commands on a host in ONLY 1 SSH session, It starts the session in the initialization and YOU close it at the end of your script (as provided in the Example)
 
 :gem: Provide nice output in different ways
 
@@ -25,8 +27,6 @@ and hence it can provide an `exit_code` of `0` or `1`
 
 
 ### Simple Example
-
-
 
 ```python
 from main import SSH_Connect
@@ -61,11 +61,41 @@ for host in hosts['hosts']:
     connection.close()
 ```
 
-
-
-
-
 ![](Images/image-20200608205523090.png)
+
+---
+
+### Sample of fetching STDERR
+
+```python
+from main import SSH_Connect
+from main import hosts
+
+username = 'orange'
+password = 'cisco'
+enable_pwd = 'cisco'
+
+# ****************************** Start **************************************
+
+hosts = hosts()
+
+print("[ INFO ] Number of hosts left: " + str(hosts['hosts_number']))
+for host in hosts['hosts']:
+    connection = SSH_Connect(host, username, password, allow_agent=True)
+    connection.shell(cmd='enable\n' + enable_pwd)
+
+    connection.print("This command has a typo !", level='warn')
+    connection.shell(cmd="show ip int br TYPO", print_json=False)
+    # ******************************* End ***************************************
+
+    hosts['hosts_number'] -= 1
+    print('')
+    connection.close()
+```
+
+
+
+![image-20200608211510011](Images/image-20200608211510011.png)
 
 
 
