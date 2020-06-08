@@ -161,7 +161,7 @@ Example:
 > ```bash
 > 192.168.1.20
 > router1.example.com
-> sw1.example.com #
+> sw1.example.com
 > ```
 
 * Then you run your script with `--file` or `-f` to specify the `hosts file`
