@@ -65,7 +65,7 @@ for host in hosts['hosts']:
 
 
 
-![image-20200608205523090](Images/image-20200608205523090.png)
+![](Images/image-20200608205523090.png)
 
 
 
