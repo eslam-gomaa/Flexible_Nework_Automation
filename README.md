@@ -101,37 +101,12 @@ for host in hosts['hosts']:
 ![image-20200608211510011](Images/image-20200608211510011.png)
 
 
-
-
-
-
 [image-20200608200752632](Images/image-20200608200752632.png)
-
-:gem: Nice output
-* you can use `print_json` which will get you output like the previous one, (good for debugging)
-```python
-# ...
-connection.shell(cmd='show vlan br TYPO_HERE', print_json=True, search='[0-9]+  Dev')
-# ...
-```
-
-* Or you can use `print_stdout=True` to get the stdout printed when the command is run
-
-```python
-# ...
-connection.shell(cmd='show vlan br TYPO_HERE', print_stdout=True, search='[0-9]+  Dev')
-# ...
-```
 
 [image-20200608201548051](Images/image-20200608201548051.png)
 
 
-
-
-
 ---
-
-
 
 
 ## Requirements
@@ -194,24 +169,6 @@ Example:
 ```bash
 python3 example.py --file <Hosts-File>
 ```
-
----
-
-## Discussion
-
-* First you begin with importin
-
-
-
-### Examples
-
-
-
-
-
-
-
-
 
 
 
