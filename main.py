@@ -4,10 +4,10 @@ import time
 import csv
 import os
 import socket
-import logging
 from pygments import highlight, lexers, formatters
 import re
 import json
+import argparse
 
 
 # pip install pygments
@@ -23,14 +23,32 @@ class bcolors:
     ENDC = '\033[0m'
     BOLD = '\033[1m'
     UNDERLINE = '\033[4m'
+    GRAY  = "\033[1;30;40m"
 
-def import_hosts(file):
-    hosts_file_ =  open(file, 'r')
-    h1 =  hosts_file_.read().split("\n")
+
+parser = argparse.ArgumentParser(description='')
+parser.add_argument('-f', '--file', type=str, required=False, metavar='', help='provide the hosts file')
+results = parser.parse_args()
+hosts_file = results.file
+if hosts_file is None:
+    print("[ Error ] " + bcolors.FAIL + "--file option must be specified" + bcolors.ENDC)
+    print('')
+    parser.print_help(sys.stderr)
+    exit(1)
+if not os.path.isfile(hosts_file):
+    print("[ Error ] " + bcolors.FAIL + "({}) is NOT a File".format(hosts_file) + bcolors.ENDC)
+    print('')
+    parser.print_help(sys.stderr)
+    exit(1)
+
+def hosts(file=hosts_file):
+    hosts_file_ = open(file, 'r')
+    h1 = hosts_file_.read().split("\n")
     info = {}
     info['hosts'] = [string for string in h1 if string != '']
     info['hosts_number'] = len(info['hosts'])
     return info
+
 
 def get_stderr(string, search='\^'):
     """
@@ -80,6 +98,7 @@ class SSH_Connect:
     """
     def __init__(self, host, user, password, port=22, ssh_timeout=10, allow_agent=False):
         self.info     = {}
+        self.hosts    = None
         self.host     = host
         self.user     = user
         self.password = password
@@ -109,11 +128,13 @@ class SSH_Connect:
                 print("[ ERROR ] " + bcolors.FAIL + "Authentication failed when connecting to %s" % self.host + bcolors.ENDC)
                 print("\t --> " + str(e))
                 print("\t --> (%s) " % self.host + bcolors.FAIL + "Skipped" + bcolors.ENDC)
+                print("")
                 break
             except socket.gaierror as e:
                 print("[ ERROR ] " + bcolors.FAIL + "Could not resolve hostname (%s) Name or service not known" % self.host + bcolors.ENDC)
                 print("\t --> " + str(e))
                 print("\t --> (%s) " % self.host + bcolors.FAIL + "Skipped" + bcolors.ENDC)
+                print("")
                 break
             except (paramiko.ssh_exception.NoValidConnectionsError, paramiko.SSHException, socket.error)  as e:
                 print(
@@ -124,8 +145,38 @@ class SSH_Connect:
                 if i == 5:
                     print("[ ERROR ] " + bcolors.FAIL + "Could not connect to %s. Giving up" % self.host + bcolors.ENDC)
                     print("\t --> (%s) " % self.host + bcolors.FAIL + "Skipped" + bcolors.ENDC)
+                    print("")
                     break
+    #def hosts(self):
+    #    self.hosts = hosts(self.hosts_file['hosts'])
 
+    def print(self,msg, level='info', force=False):
+        """
+
+        :param force:
+        :param level:
+        :param msg:
+        :return:
+        """
+        color = None
+        start = None
+        if level == 'info':
+            color = bcolors.OKGREEN
+            start = bcolors.GRAY + "-- INFO --" + bcolors.ENDC
+        elif level == 'warn':
+            color = bcolors.WARNING
+            start = bcolors.GRAY + "-- WARNING --" + bcolors.ENDC
+        elif level == 'fail':
+            color = bcolors.FAIL
+            start = bcolors.GRAY + "[FAIL]"+ bcolors.ENDC
+        else:
+            print( + bcolors.FAIL + " Supported print level options are: ['info', 'warn', 'fail'] - Your input: ({})".format(level)+ bcolors.ENDC)
+            exit(1)
+        if not force:
+            if self.is_connected:
+                print(start + color + ' ' + msg + bcolors.ENDC)
+        else:
+            print(start + color + ' ' + msg + bcolors.ENDC)
 
     def exec_cmd(self, cmd):
         """
@@ -149,9 +200,10 @@ class SSH_Connect:
             self.info['exit_code'] = ''
             return self.info
 
-    def shell(self, cmd, print_stdout=False, stderr_search_keyword='\^', exit_on_fail=True,print_json=False ,search=None):
+    def shell(self, cmd=None, cmd_from_file=None, print_stdout=False, stderr_search_keyword='\^', exit_on_fail=True,print_json=False ,search=None):
         """
         Method to execute shell commands through shs shell channel, similar to attaching to a shell session
+        :param cmd_from_file:
         :param exit_on_fail:
         :param stderr_search_keyword:
         :param print_json:
@@ -162,13 +214,29 @@ class SSH_Connect:
         """
 
         if self.is_connected:
+
+            if (cmd_from_file is not None) and (cmd is not None):
+                print("[ Error ] " + bcolors.FAIL +  "You can only use 'cmd' or 'cmd_from_file' options" + bcolors.ENDC)
+                exit(1)
+
+            if cmd_from_file is not None:
+                if os.path.exists(cmd_from_file):
+                    f = open(cmd_from_file, 'r')
+                    cmd = f.read()
+                elif not os.path.isfile(cmd_from_file):
+                    print("[ Error ] " + bcolors.FAIL + "You've specified 'cmd_from_file option' but ({}) is NOT a file".format(cmd_from_file) + bcolors.ENDC)
+                    exit(1)
+
+
             self.channel.send( cmd +'\n' + '\n')
             time.sleep(2)
             self.info['cmd'] = cmd.replace("\r", '').split("\n")
+            cmd_original = self.info['cmd']
             self.info['connected'] = self.is_connected
             self.info['stdout'] = self.channel.recv(9999).decode("utf-8")
             stdout_original = self.info['stdout']
             self.info['stderr'] = get_stderr(stdout_original, stderr_search_keyword)['string'].replace("\r", '').split("\n")
+            self.info['search'] = search
             self.info['search_found?']   = None
             self.info['search_match'] = None
             stderr_ = [x for x in self.info['stderr'] if x]
@@ -177,7 +245,6 @@ class SSH_Connect:
             else:
                 self.info['stderr']    = []
                 self.info['exit_code'] = 0
-
             if search:
                 found = re.findall(search, self.info['stdout'])
                 if len(found) > 0:
@@ -189,10 +256,12 @@ class SSH_Connect:
             if print_json:
                 self.info['stdout'] = self.info['stdout'].replace("\r", '')
                 self.info['stdout'] = self.info['stdout'].split("\n")
+                self.info['cmd'] = [x for x in self.info['cmd'] if x]
                 formatted_json = json.dumps(self.info, indent=4, sort_keys=True, ensure_ascii=False)
                 colorful_json = highlight(formatted_json.encode('utf8'), lexers.JsonLexer(), formatters.TerminalFormatter())
                 print(colorful_json)
                 self.info['stdout'] = stdout_original
+                self.info['cmd']    = cmd_original
             else:
                 self.info['stdout'] =  stdout_original
 
@@ -205,8 +274,8 @@ class SSH_Connect:
                     print("[ ERROR ] " + bcolors.FAIL + "Found the following Error:" + bcolors.ENDC)
                     print('')
                     err = get_stderr(stdout_original, stderr_search_keyword)['string']
-                    for c in self.info['cmd']:
-                        print(bcolors.OKBLUE + c + bcolors.ENDC)
+                    #for c in self.info['cmd']:
+                    #    print(bcolors.OKBLUE + c + bcolors.ENDC)
                     print('')
                     print(bcolors.FAIL + err + bcolors.ENDC)
                     print(bcolors.FAIL + "* * * * * * * * * * * * * * * * * * * * * * *" + bcolors.ENDC)
