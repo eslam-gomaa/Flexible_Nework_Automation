@@ -9,7 +9,7 @@ A Python Class that provides handy Methods that help to make Network Automation 
 **As you may know network devices do NOT have the concept of `stderr` & `exit_code`,
 when you run a command on a network device you will only get the `stdout`**
 
-:gem: The `shell` method can be used to run command on Network Devices via SSH, Normally it can get `stdout` but it's also  able to get the `stderr` by searching in the `stdout`
+:gem: **The `shell` method** can be used to run commands on Network Devices via SSH, Normally it can get `stdout` but it's also  able to get the `stderr` by searching in the `stdout`
 and hence it can provide an `exit_code` of `0` or `1` 
 
 :gem: It executes all the commands on a host in ONLY 1 SSH session, It starts the session in the initialization and YOU close it at the end of your script (as provided in the Example)
@@ -22,7 +22,7 @@ and hence it can provide an `exit_code` of `0` or `1`
 
 :gem: ability to use Python conditionals based on the `status code` or the `search output` of a command
 
-:gem: and more :smile:
+:gem: and more :wink:
 
 
 
@@ -47,9 +47,11 @@ for host in hosts['hosts']:
     connection.shell(cmd='enable\n' + enable_pwd)
 
     connection.print("Let's begin ^_^ ", level='info')
+
     if connection.shell(cmd="sh version", search='Cisco IOS Software, vios_l2 Software')['search_found?']:
         connection.print("This device is a Cisco Switch, Let's create a VLAN !", level='warn')
         connection.shell(cmd_from_file='./conf_file.txt',)
+
         connection.print("Let's check that the vlan exists ! & see some output", level='warn')
         if connection.shell(cmd="sh vlan br", print_stdout=True,print_json=True, search='[0-9]+  Dev')['search_found?']:
             connection.print("VLAN exists - We're Done ! ^_^")
