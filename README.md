@@ -148,7 +148,7 @@ from main import hosts       # import "hosts"       function
 
 #### Step 2
 
-> After you write your code, (discussed later) you can run your script
+> After you write your code, ( [discussed Here](Examples/README.md) )  you can run your script
 
 ```bash
 python3 example.py --help
