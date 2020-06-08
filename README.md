@@ -12,6 +12,66 @@ when you run a command on a network device you will only get the `stdout`
 :gem: The `shell` method can be used to run command on Network Devices via SSH, Normally it can get `stdout` but it's also  able to get the `stderr` by searching in the `stdout`
 and hence it can provide an `exit_code` of `0` or `1` 
 
+:gem: Provide nice output in different ways
+
+:gem: You can run a command or load commands from a text file
+
+:gem: ability to search in the output a command with `RegEX`
+
+:gem: ability to use Python conditionals based on the `status code` or the `search output` of a command
+
+:gem: and more :smile:
+
+
+
+### Simple Example
+
+
+
+```python
+from main import SSH_Connect
+from main import hosts
+
+username = 'orange'
+password = 'cisco'
+enable_pwd = 'cisco'
+
+# ****************************** Start **************************************
+
+hosts = hosts()
+
+print("[ INFO ] Number of hosts left: " + str(hosts['hosts_number']))
+for host in hosts['hosts']:
+
+    connection = SSH_Connect(host, username, password, allow_agent=True)
+    connection.shell(cmd='enable\n' + enable_pwd)
+
+    connection.print("Let's begin ^_^ ", level='info')
+    if connection.shell(cmd="sh version", search='Cisco IOS Software, vios_l2 Software')['search_found?']:
+        connection.print("This device is a Cisco Switch, Let's create a VLAN !", level='warn')
+        connection.shell(cmd_from_file='./conf_file.txt',)
+        connection.print("Let's check that the vlan exists ! & see some output", level='warn')
+        if connection.shell(cmd="sh vlan br", print_stdout=True,print_json=True, search='[0-9]+  Dev')['search_found?']:
+            connection.print("VLAN exists - We're Done ! ^_^")
+
+    # ******************************* End ***************************************
+
+    hosts['hosts_number'] -= 1
+    print('')
+    connection.close()
+```
+
+
+
+
+
+[image-20200608205523090](Images/image-20200608205523090.png)
+
+
+
+
+
+
 ![image-20200608200752632](Images/image-20200608200752632.png)
 
 :gem: Nice output
@@ -30,7 +90,7 @@ connection.shell(cmd='show vlan br TYPO_HERE', print_stdout=True, search='[0-9]+
 # ...
 ```
 
-![image-20200608201548051](Images/image-20200608201548051.png)
+[image-20200608201548051](Images/image-20200608201548051.png)
 
 
 

@@ -1,8 +1,4 @@
 
-sh ip in br
-
-sh vlan brTYPO
-
 conf t
 vlan 100
 name Dev
