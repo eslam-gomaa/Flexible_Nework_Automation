@@ -14,8 +14,8 @@ for host in hosts['hosts']:
     connection = SSH_Connect(host, username, password, allow_agent=True)
     connection.shell(cmd='enable\n' + enable_pwd)
 
-    connection.print(msg='view trunk interfaces', level='info')
-    connection.shell(cmd_from_file='./Examples/conf_file.txt', print_json=True)
+    connection.print("This command has a typo !", level='warn')
+    connection.shell(cmd="show ip int br TYPO", print_json=False)
 
     # ******************************* End ***************************************
 
