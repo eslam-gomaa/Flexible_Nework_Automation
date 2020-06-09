@@ -40,7 +40,7 @@ Code is [Here](Examples/Example-3.py)
 
 ---
 
-### Sample of fetching STDERR
+### Sample of Fetching `stderr`
 
 Code is [Here](Examples/Example-1.py)
 
@@ -55,8 +55,6 @@ Code is [Here](Examples/Example-1.py)
 
 
 [image-20200608200752632](Images/image-20200608200752632.png)
-
-[image-20200608201548051](Images/image-20200608201548051.png)
 
 
 
