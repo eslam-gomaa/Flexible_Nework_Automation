@@ -30,13 +30,13 @@ and hence it can provide an `exit_code` of `0` or `1`
 
 
 
-![image-20200609050855480](Images/image-20200609050855480.png)
+![image-20200609050855480](Examples/Images/image-20200609050855480.png)
 
 Code is [Here](Examples/Example-3.py)
 
 
 
-![](Images/image-20200608205523090.png)
+![](Examples/Images/image-20200608205523090.png)
 
 ---
 
@@ -46,15 +46,15 @@ Code is [Here](Examples/Example-1.py)
 
 
 
-![image-20200609050302886](Images/image-20200609050302886.png)
+![image-20200609050302886](Examples/Images/image-20200609050302886.png)
 
 
 
-![image-20200608211510011](Images/image-20200608211510011.png)
+![image-20200608211510011](Images/Examples/image-20200608211510011.png)
 
 
 
-[image-20200608200752632](Images/image-20200608200752632.png)
+[image-20200608200752632](Images/Examples/image-20200608200752632.png)
 
 
 
@@ -137,5 +137,4 @@ python3 example.py --file <Hosts-File>
 
 
 
-
-
+[Eslam Gomaa](https://www.linkedin.com/in/eslam-gomaa/)
