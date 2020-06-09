@@ -33,7 +33,7 @@ connection = SSH_Connect(host, username, password, allow_agent=True)
 
 
 
-#### Methods
+### Methods
 
 * ` exec_cmd` - Run a command on a remote host via ssh (Suitable for Servers)
   * Returns a `dict` of infos
