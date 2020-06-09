@@ -35,7 +35,7 @@ connection = SSH_Connect(host, username, password, allow_agent=True)
 
 ### Methods
 
-* ` exec_cmd` - Run a command on a remote host via ssh (Suitable for Servers)
+* **`exec_cmd`** - Run a command on a remote host via ssh (Suitable for Servers)
   * Returns a `dict` of infos
 
 ```python
@@ -60,7 +60,7 @@ connection.exec_cmd(cmd='ipconfig')
 
 
 
-* `print` - Print with different print Levels ('info', 'warn', 'fail')
+* **`print`** - Print with different print Levels ('info', 'warn', 'fail')
 
 ```python
 connection.print()
@@ -86,7 +86,7 @@ connection.print(msg='view trunk interfaces', level='info', force=True)
 
 
 
-* `shell` - Method to execute shell commands through SSH shell channel, similar to attaching to a shell session
+* **`shell`** - Method to execute shell commands through SSH shell channel, similar to attaching to a shell session
 
 
 
@@ -157,7 +157,7 @@ if connection.shell(cmd="sh vlan br", print_stdout=True,print_json=True, search=
 
 
 
-* `close()` - To close the SSH Session
+* **`close()`** - To close the SSH Session
 
 
 
