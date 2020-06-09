@@ -14,8 +14,15 @@ for host in hosts['hosts']:
     connection = SSH_Connect(host, username, password, allow_agent=True)
     connection.shell(cmd='enable\n' + enable_pwd)
 
-    connection.print("This command has a typo !", level='warn')
-    connection.shell(cmd="show ip int br TYPO", print_json=False)
+    print('')
+    connection.print("Testing using conditions...")
+    if not connection.shell(cmd="sh version", search='Cisco IOS Software, IOSv Software')['search_found?']:
+        connection.print("This device is NOT a Cisco Router, I'll assume it's a Switch", level='warn')
+        connection.shell(cmd='show ip int br', search='(?:[0-9]{1,3}\.){3}[0-9]{1,3}', print_json=True)
+
+    connection.print('Testing: condition based on exit_code; running command')
+    if connection.shell(cmd="show ip int br", print_json=True)['exit_code'] == 0:
+        connection.print("The command run successfully with exit_code 0", level='info')
 
     # ******************************* End ***************************************
 
