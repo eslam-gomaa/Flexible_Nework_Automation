@@ -86,7 +86,7 @@ connection.print(msg='view trunk interfaces', level='info', force=True)
 
 
 
-* **`shell`** - Method to execute shell commands through SSH shell channel, similar to attaching to a shell session
+* **`shell`** - Method to execute shell commands through SSH shell channel, similar to attaching to a shell session (Suitable for Network Devices)
 
 
 
