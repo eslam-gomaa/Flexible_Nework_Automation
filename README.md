@@ -6,8 +6,8 @@ A Python Class that provides handy Methods that help to make Network Automation 
 ## Features :sunny:	: 
 
 
-**As you may know network devices do NOT have the concept of `stderr` & `exit_code`,
-when you run a command on a network device you will only get the `stdout`**
+*As you may know network devices do NOT have the concept of `stderr` & `exit_code`,
+when you run a command on a network device you will only get the `stdout`*
 
 :gem: **The `shell` method** can be used to run commands on Network Devices via SSH, Normally it can get `stdout` but it's also  able to get the `stderr` by searching in the `stdout`
 and hence it can provide an `exit_code` of `0` or `1` 
@@ -50,11 +50,11 @@ Code is [Here](Examples/Example-1.py)
 
 
 
-![image-20200608211510011](Images/Examples/image-20200608211510011.png)
+![image-20200608211510011](Examples/Images/image-20200608211510011.png)
 
 
 
-[image-20200608200752632](Images/Examples/image-20200608200752632.png)
+[image-20200608200752632](Examples/Images/image-20200608200752632.png)
 
 
 
