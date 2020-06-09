@@ -28,11 +28,10 @@ and hence it can provide an `exit_code` of `0` or `1`  - ([Sample command output
 
 ### Simple Example
 
+Code is [Here](Examples/Example-3.py)
 
 
 ![image-20200609050855480](Examples/Images/image-20200609050855480.png)
-
-Code is [Here](Examples/Example-3.py)
 
 
 

@@ -2,7 +2,7 @@
 
 
 
-### Discussion
+# Discussion
 
 
 
@@ -18,11 +18,8 @@
 
 
 
-## Discussion
 
-
-
-### `SSH_Connect` Class
+## `SSH_Connect` Class
 
 
 
