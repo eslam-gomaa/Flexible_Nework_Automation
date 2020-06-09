@@ -107,7 +107,7 @@ connection.shell(cmd="show int trunk", print_json=True, print_stdout=True, )
 * To catch the `stderr` it looks for keyword in the `stdout` of the command
   * The keyword can be passed with `stderr_search_keyword=`
 
-> The default keyword search to get the stderr is `\^`  -- To get Cisco stdout
+> The default keyword search to get the stderr is `\^`  -- To get Cisco Errors
 
 **Note** - This keyword searches using RegEX - so you can change it the way it suits you (and based on the network device vendor)
 
@@ -117,7 +117,7 @@ connection.shell(cmd="show int trunk", print_json=True, stderr_search_keyword='\
 
 
 
-* By default - your script will exit with `1` in a `stderr` is found, to change this,  you can use:
+* By default - your script will exit with `1` if an `stderr` is found, to change this,  you can use:
 
 ```python
 connection.shell(cmd="show int trunk", print_json=True, exit_on_fail=False)
